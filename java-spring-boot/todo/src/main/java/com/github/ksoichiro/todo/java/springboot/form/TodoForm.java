@@ -5,7 +5,7 @@ import javax.validation.constraints.Size;
 
 public class TodoForm {
     @NotNull
-    @Size(max = 1024)
+    @Size(min = 1, max = 1024)
     private String title;
 
     @Size(max = 1024)
