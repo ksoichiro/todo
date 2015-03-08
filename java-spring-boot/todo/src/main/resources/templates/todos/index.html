@@ -14,5 +14,17 @@
     <input type="submit" value="Logout" />
 </form>
 
+<form th:action="@{/todos/create}" th:object="${todoForm}" method="post">
+    <label for="title">Title:</label><input type="text" th:field="*{title}" />
+    <label for="note">Note:</label><input type="text" th:field="*{note}" />
+    <label for="todoStateId">Status:</label>
+    <select th:field="*{todoStateId}">
+        <option th:each="state : ${allTodoStates}"
+                th:value="${state.id}"
+                th:text="${state.description}"></option>
+    </select>
+    <input type="submit" value="Save" />
+</form>
+
 </body>
 </html>
