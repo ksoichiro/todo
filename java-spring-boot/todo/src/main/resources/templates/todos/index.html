@@ -24,6 +24,7 @@
                 th:text="${state.description}"></option>
     </select>
     <input type="submit" value="Save" />
+    <div th:if="${#fields.hasErrors()}" th:errors="*">Error</div>
 </form>
 
 </body>
