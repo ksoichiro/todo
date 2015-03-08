@@ -1,6 +1,6 @@
 # TODO with Spring Boot
 
-## DB
+## Database
 
 Setup MariaDB with Vagrant.
 
@@ -8,4 +8,15 @@ Setup MariaDB with Vagrant.
 $ vagrant up
 ```
 
-Modify forwarded port number `3306` in Vagrantfile if necessary.
+Modify private network IP address `192.168.33.10` in Vagrantfile if necessary.
+
+## Launch app
+
+```sh
+$ ./gradlew bootRun
+```
+
+Wait until `Started Application in **.*** seconds` is shown.
+Then open `http://localhost:8080` in your browser.
+
+You can log in to the app with `test`/`test`.
