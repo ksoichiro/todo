@@ -3,6 +3,7 @@ truncate table `role_user`;
 truncate table `user`;
 truncate table `role`;
 truncate table `todo_state`;
+truncate table `todo`;
 set foreign_key_checks = 1;
 
 insert ignore into `user` (`id`, `username`, `password`, `enabled`, `created_at`, `updated_at`) values (1, 'test', 'c3bf653f3addf1102cecb043a423915aa345b85131e7ea0f84108839415ded416574799c648a1289', true, unix_timestamp(), unix_timestamp());
