@@ -1,0 +1,19 @@
+* {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+pre, code {
+    font-family: monospace;
+}
+body {
+    background: #f0f0f0;
+}
+table.list {
+    border: 1px solid #333;
+    border-collapse: collapse;
+    margin-top: 0.4em;
+}
+table.list th,
+table.list td {
+    border: 1px solid #333;
+    padding: 0.4em;
+}
