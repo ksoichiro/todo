@@ -1,0 +1,9 @@
+spring:
+    datasource:
+        driverClassName: com.mysql.jdbc.Driver
+        url: jdbc:mysql://192.168.33.10:3306/test
+        username: sa
+        password: password
+    jpa:
+        hibernate:
+            ddl-auto: ''
