@@ -1,9 +1,6 @@
 package com.github.ksoichiro.todo.java.springboot.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Todo {
@@ -27,13 +24,14 @@ public class Todo {
     private Long groupId;
 
     @Column(nullable = false)
-    private Long todoStateId;
-
-    @Column(nullable = false)
     private Long createdAt;
 
     @Column(nullable = false)
     private Long updatedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "todo_state_id")
+    private TodoState todoState;
 
     public Long getId() {
         return id;
@@ -83,14 +81,6 @@ public class Todo {
         this.groupId = groupId;
     }
 
-    public Long getTodoStateId() {
-        return todoStateId;
-    }
-
-    public void setTodoStateId(Long todoStateId) {
-        this.todoStateId = todoStateId;
-    }
-
     public Long getCreatedAt() {
         return createdAt;
     }
@@ -105,5 +95,13 @@ public class Todo {
 
     public void setUpdatedAt(Long updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public TodoState getTodoState() {
+        return todoState;
+    }
+
+    public void setTodoState(TodoState todoState) {
+        this.todoState = todoState;
     }
 }

@@ -3,6 +3,7 @@ package com.github.ksoichiro.todo.java.springboot.service;
 import com.github.ksoichiro.todo.java.springboot.domain.Todo;
 import com.github.ksoichiro.todo.java.springboot.form.TodoForm;
 import com.github.ksoichiro.todo.java.springboot.repository.TodoRepository;
+import com.github.ksoichiro.todo.java.springboot.repository.TodoStateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,8 @@ import java.util.List;
 public class TodoService {
     @Autowired
     private TodoRepository todoRepository;
+    @Autowired
+    private TodoStateRepository todoStateRepository;
 
     public List<Todo> findAll(Long userId) {
         List<Todo> list = new ArrayList<Todo>();
@@ -31,7 +34,7 @@ public class TodoService {
         entity.setGroupId(0L);
         entity.setCreatedAt(System.currentTimeMillis());
         entity.setUpdatedAt(System.currentTimeMillis());
-        entity.setTodoStateId(Long.parseLong(form.getTodoStateId()));
+        entity.setTodoState(todoStateRepository.findOne(Long.parseLong(form.getTodoStateId())));
 
         return todoRepository.save(entity);
     }

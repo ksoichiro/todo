@@ -31,12 +31,14 @@
     <thead>
         <th>Id</th>
         <th>Title</th>
+        <th>Status</th>
         <th>Note</th>
     </thead>
     <tbody>
         <tr th:each="entity : ${allTodos}">
             <td th:text="${entity.id}"></td>
             <td th:text="${entity.title}"></td>
+            <td th:text="${entity.todoState.description}"></td>
             <td th:text="${entity.note}"></td>
         </tr>
     </tbody>
