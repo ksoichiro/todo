@@ -7,3 +7,5 @@ spring:
     jpa:
         hibernate:
             ddl-auto: ''
+    thymeleaf:
+        cache: false
