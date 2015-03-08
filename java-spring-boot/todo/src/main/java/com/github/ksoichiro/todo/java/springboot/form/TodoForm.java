@@ -1,14 +1,15 @@
 package com.github.ksoichiro.todo.java.springboot.form;
 
-import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.validation.constraints.Size;
 
 public class TodoForm {
-    @NotNull
+    @NotEmpty
     @Size(min = 1, max = 1024)
     private String title;
 
-    @Size(max = 1024)
+    @Size(min = 0, max = 1024)
     private String note;
 
     private String todoStateId;
