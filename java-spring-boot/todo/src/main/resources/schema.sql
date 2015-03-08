@@ -45,6 +45,7 @@ create table if not exists `todo` (
     `title` varchar(1024) not null,
     `note` varchar(1024) not null,
     `owner_type` int(10) not null default 0,
+    `user_id` bigint(20) not null,
     `group_id` bigint(20) not null default 0,
     `todo_state_id` bigint(20) not null default 0,
     `updated_at` bigint(20) not null,

@@ -21,6 +21,9 @@ public class Todo {
     private Integer ownerType;
 
     @Column(nullable = false)
+    private Long userId;
+
+    @Column(nullable = false)
     private Long groupId;
 
     @Column(nullable = false)
@@ -62,6 +65,14 @@ public class Todo {
 
     public void setOwnerType(Integer ownerType) {
         this.ownerType = ownerType;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Long getGroupId() {

@@ -27,5 +27,20 @@
     <div th:if="${#fields.hasErrors()}" th:errors="*">Error</div>
 </form>
 
+<table>
+    <thead>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Note</th>
+    </thead>
+    <tbody>
+        <tr th:each="entity : ${allTodos}">
+            <td th:text="${entity.id}"></td>
+            <td th:text="${entity.title}"></td>
+            <td th:text="${entity.note}"></td>
+        </tr>
+    </tbody>
+</table>
+
 </body>
 </html>
