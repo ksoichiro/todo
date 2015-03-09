@@ -60,7 +60,7 @@
     <div th:if="${#fields.hasErrors()}" th:errors="*">Error</div>
 </form>
 
-<table class="list">
+<table class="list" th:if="${!#lists.isEmpty(allTodos)}">
     <thead>
         <th>Id</th>
         <th>Title</th>
