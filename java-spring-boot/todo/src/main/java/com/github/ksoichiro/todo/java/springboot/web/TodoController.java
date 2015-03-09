@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -42,6 +43,12 @@ public class TodoController {
         Authentication authentication = (Authentication) principal;
         User user = (User) authentication.getPrincipal();
         todoService.save(form, user.getId());
+        return "redirect:/todos";
+    }
+
+    @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
+    public String delete(Principal principal, TodoForm form, Model model, @PathVariable Long id) {
+        todoService.delete(id);
         return "redirect:/todos";
     }
 }

@@ -38,4 +38,8 @@ public class TodoService {
 
         return todoRepository.save(entity);
     }
+
+    public void delete(Long todoId) {
+        todoRepository.delete(todoId);
+    }
 }
