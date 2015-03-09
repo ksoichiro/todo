@@ -5,7 +5,7 @@ pre, code {
     font-family: monospace;
 }
 body {
-    background: #f0f0f0;
+    background: #E8F5E9;
 }
 table.list {
     border: 1px solid #333;
@@ -15,5 +15,54 @@ table.list {
 table.list th,
 table.list td {
     border: 1px solid #333;
+    padding: 0.4em;
+}
+
+.btn {
+    background: #4CAF50;
+    color: #FFFFFF;
+    font-weight: bold;
+    padding: 0.6em 1em;
+    font-size: 1em;
+    border: none;
+    border-top: 2px solid #4CAF50;
+    border-bottom: 2px solid #388E3C;
+}
+
+.btn:active {
+    background: #388E3C;
+    color: #FFFFFF;
+    border-top: 2px solid #2E7D32;
+    border-bottom: 2px solid #388E3C;
+}
+
+.btn:focus {
+    outline: 0;
+}
+
+.error {
+    padding: 0.4em;
+    max-width: 800px;
+    border: 1px solid #F44336;
+    background: #FFCDD2;
+    color: #F44336;
+}
+
+.notice {
+    padding: 0.4em;
+    max-width: 800px;
+    border: 1px solid #2196F3;
+    background: #BBDEFB;
+    color: #2196F3;
+}
+
+table#login {
+    margin-top: 1em;
+    padding: 2em;
+    background: #A5D6A7;
+}
+
+table#login td {
+    color: #1B5E20;
     padding: 0.4em;
 }
