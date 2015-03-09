@@ -22,9 +22,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = null;
-        if (!"".equals(username)) {
+        if (null == username || "".equals(username)) {
+            throw new UsernameNotFoundException("Username is empty");
+        } else {
             User domainUser = userRepository.findByUsername(username);
-            if (domainUser != null) {
+            if (domainUser == null) {
+                throw new UsernameNotFoundException("User not found for name: " + username);
+            } else {
                 List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
                 if (domainUser.getRoles() != null) {
                     for (Role role : domainUser.getRoles()) {
