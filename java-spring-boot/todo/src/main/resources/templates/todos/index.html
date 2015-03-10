@@ -56,7 +56,6 @@
                 child.show();
             }
             child.focus();
-            var formId = '#update' + entityId;
             child.focusout(function() {
                 if (child.val().length == 0) {
                     $(td).text(text);
@@ -69,7 +68,7 @@
                         type: 'POST',
                         datatype : "json",
                         contentType: "application/json; charset=utf-8",
-                        url: $(formId).attr('action'),
+                        url: '/todos/' + entityId + '/update',
                         data: JSON.stringify(data)
                     }).success(function(data) {
                         $(td).text(child.val());
@@ -123,12 +122,10 @@
     </thead>
     <tbody>
         <tr th:each="entity,rowStat : ${allTodos}">
-            <form class="inline" method="post" th:id="'update' + ${entity.id}" th:action="@{/todos/__${entity.id}__/update}" th:object="${todoUpdateForm}">
-                <td th:text="${entity.id}"></td>
-                <td th:text="${entity.title}" th:onclick="'editTodo(\'' + ${entity.id} + '\', this, \'title\');'"></td>
-                <td th:text="${entity.todoState.description}"></td>
-                <td th:text="${entity.note}" th:onclick="'editTodo(\'' + ${entity.id} + '\', this, \'note\');'"></td>
-            </form>
+            <td th:text="${entity.id}"></td>
+            <td th:text="${entity.title}" th:onclick="'editTodo(' + ${entity.id} + ', this, \'title\');'"></td>
+            <td th:text="${entity.todoState.description}"></td>
+            <td th:text="${entity.note}" th:onclick="'editTodo(' + ${entity.id} + ', this, \'note\');'"></td>
             <td>
                 <form class="inline" method="post" th:id="'delete' + ${entity.id}" th:action="@{/todos/__${entity.id}__/delete}">
                     <input type="button" value="Remove" th:onclick="'confirmDeleteTodo(\'#delete' + ${entity.id} + '\');'"/>
