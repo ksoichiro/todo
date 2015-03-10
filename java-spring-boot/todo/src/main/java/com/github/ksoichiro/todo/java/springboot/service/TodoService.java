@@ -2,6 +2,7 @@ package com.github.ksoichiro.todo.java.springboot.service;
 
 import com.github.ksoichiro.todo.java.springboot.domain.Todo;
 import com.github.ksoichiro.todo.java.springboot.form.TodoForm;
+import com.github.ksoichiro.todo.java.springboot.form.TodoUpdateForm;
 import com.github.ksoichiro.todo.java.springboot.repository.TodoRepository;
 import com.github.ksoichiro.todo.java.springboot.repository.TodoStateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,19 @@ public class TodoService {
         entity.setCreatedAt(System.currentTimeMillis());
         entity.setUpdatedAt(System.currentTimeMillis());
         entity.setTodoState(todoStateRepository.findOne(Long.parseLong(form.getTodoStateId())));
+        return todoRepository.save(entity);
+    }
+
+    public Todo update(TodoUpdateForm form) {
+        Long id = Long.parseLong(form.getId());
+        Todo entity = todoRepository.findOne(id);
+        if (form.getTitle() != null) {
+            entity.setTitle(form.getTitle());
+        }
+        if (form.getNote() != null) {
+            entity.setNote(form.getNote());
+        }
+        entity.setUpdatedAt(System.currentTimeMillis());
 
         return todoRepository.save(entity);
     }

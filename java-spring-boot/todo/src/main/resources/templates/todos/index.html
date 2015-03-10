@@ -2,6 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
     <meta charset="UTF-8" />
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>TODO</title>
     <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,900' rel='stylesheet' type='text/css'/>
     <link rel="stylesheet" type="text/css" href="/css/main.css" />
@@ -9,6 +11,13 @@
     <script src="/webjars/jquery-ui/1.11.3/jquery-ui.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/webjars/jquery-ui-themes/1.11.3/smoothness/jquery-ui.min.css" />
     <script language="javascript">
+        $(function () {
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+            $(document).ajaxSend(function(e, xhr, options) {
+               xhr.setRequestHeader(header, token);
+            });
+        });
         function confirmDeleteTodo(id) {
             $('#dialog_confirm_delete').html('Are you sure to delete?');
             $('#dialog_confirm_delete').dialog({
@@ -25,6 +34,50 @@
                 },
                 open: function() {
                     $(this).siblings('.ui-dialog-buttonpane').find('button:eq(1)').focus();
+                }
+            });
+        }
+        function editTodo(entityId, td, id) {
+            var child;
+            var text;
+            if ($(td).children().length == 0) {
+                text = $(td).text();
+                $(td).text('');
+                child = $("<input />", {
+                    'id': id,
+                    'value': text
+                });
+                child.appendTo($(td));
+            } else if ($(td).children().first().is(':visible')) {
+                return;
+            } else {
+                $(td).text('');
+                child = $(td).children().first();
+                child.show();
+            }
+            child.focus();
+            var formId = '#update' + entityId;
+            child.focusout(function() {
+                if (child.val().length == 0) {
+                    $(td).text(text);
+                    child.hide();
+                } else {
+                    var data = {};
+                    data['id'] = entityId;
+                    data[id] = child.val();
+                    $.ajax({
+                        type: 'POST',
+                        datatype : "json",
+                        contentType: "application/json; charset=utf-8",
+                        url: $(formId).attr('action'),
+                        data: JSON.stringify(data)
+                    }).success(function(data) {
+                        $(td).text(child.val());
+                        child.hide();
+                    }).error(function(data) {
+                        $(td).text(text);
+                        child.hide();
+                    });
                 }
             });
         }
@@ -69,11 +122,13 @@
         <th>&nbsp;</th>
     </thead>
     <tbody>
-        <tr th:each="entity : ${allTodos}">
-            <td th:text="${entity.id}"></td>
-            <td th:text="${entity.title}"></td>
-            <td th:text="${entity.todoState.description}"></td>
-            <td th:text="${entity.note}"></td>
+        <tr th:each="entity,rowStat : ${allTodos}">
+            <form class="inline" method="post" th:id="'update' + ${entity.id}" th:action="@{/todos/__${entity.id}__/update}" th:object="${todoUpdateForm}">
+                <td th:text="${entity.id}"></td>
+                <td th:text="${entity.title}" th:onclick="'editTodo(\'' + ${entity.id} + '\', this, \'title\');'"></td>
+                <td th:text="${entity.todoState.description}"></td>
+                <td th:text="${entity.note}" th:onclick="'editTodo(\'' + ${entity.id} + '\', this, \'note\');'"></td>
+            </form>
             <td>
                 <form class="inline" method="post" th:id="'delete' + ${entity.id}" th:action="@{/todos/__${entity.id}__/delete}">
                     <input type="button" value="Remove" th:onclick="'confirmDeleteTodo(\'#delete' + ${entity.id} + '\');'"/>
