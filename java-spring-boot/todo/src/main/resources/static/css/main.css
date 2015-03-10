@@ -50,6 +50,48 @@ table.list td {
     outline: 0;
 }
 
+.btn-save {
+    background: #4CAF50;
+    color: #FFFFFF;
+    padding: 0.2em 0.6em;
+    font-size: 0.8em;
+    border: none;
+    border-top: 2px solid #4CAF50;
+    border-bottom: 2px solid #388E3C;
+}
+
+.btn-save:active {
+    background: #388E3C;
+    color: #FFFFFF;
+    border-top: 2px solid #2E7D32;
+    border-bottom: 2px solid #388E3C;
+}
+
+.btn-save:focus {
+    outline: 0;
+}
+
+.btn-remove {
+    background: #F44336;
+    color: #FFFFFF;
+    padding: 0.2em 0.6em;
+    font-size: 0.8em;
+    border: none;
+    border-top: 2px solid #F44336;
+    border-bottom: 2px solid #D32F2F;
+}
+
+.btn-remove:active {
+    background: #D32F2F;
+    color: #FFFFFF;
+    border-top: 2px solid #C62828;
+    border-bottom: 2px solid #D32F2F;
+}
+
+.btn-remove:focus {
+    outline: 0;
+}
+
 .error {
     padding: 0.4em;
     max-width: 800px;
@@ -100,4 +142,20 @@ table#login td {
 h1 {
     color: #FFFFFF;
     margin: 0;
+}
+
+#newTodo {
+    display: inline-block;
+    margin: 1em auto;
+    background: #C8E6C9;
+    padding: 1em;
+}
+
+#newTodo input[type=text],
+#newTodo select {
+    margin: auto 0.8em;
+}
+
+#newTodo .error {
+    margin-top: 1em;
 }

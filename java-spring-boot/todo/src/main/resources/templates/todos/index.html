@@ -55,30 +55,30 @@
                 child = $(td).children().first();
                 child.show();
             }
-            child.focus();
             child.focusout(function() {
                 if (child.val().length == 0) {
                     $(td).text(text);
                     child.hide();
                 } else {
-                    var data = {};
-                    data['id'] = entityId;
-                    data[id] = child.val();
+                    var params = {};
+                    params['id'] = entityId;
+                    params[id] = child.val();
                     $.ajax({
                         type: 'POST',
                         datatype : "json",
                         contentType: "application/json; charset=utf-8",
                         url: '/todos/' + entityId + '/update',
-                        data: JSON.stringify(data)
-                    }).success(function(data) {
-                        $(td).text(child.val());
-                        child.hide();
-                    }).error(function(data) {
-                        $(td).text(text);
-                        child.hide();
+                        data: JSON.stringify(params),
+                        success: function(data) {
+                            $(td).text(child.val());
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                            $(td).text(text);
+                        }
                     });
                 }
             });
+            child.focus();
         }
     </script>
 </head>
@@ -99,7 +99,7 @@
     <input type="submit" value="Logout" />
 </form>
 
-<form th:action="@{/todos/create}" th:object="${todoForm}" method="post">
+<form id="newTodo" th:action="@{/todos/create}" th:object="${todoForm}" method="post">
     <label for="title">Title:</label><input type="text" th:field="*{title}" />
     <label for="note">Note:</label><input type="text" th:field="*{note}" />
     <label for="todoStateId">Status:</label>
@@ -108,8 +108,8 @@
                 th:value="${state.id}"
                 th:text="${state.description}"></option>
     </select>
-    <input type="submit" value="Save" />
-    <div th:if="${#fields.hasErrors()}" th:errors="*">Error</div>
+    <input type="submit" class="btn-save" value="Save" />
+    <div class="error" th:if="${#fields.hasErrors()}" th:errors="*">Error</div>
 </form>
 
 <table class="list" th:if="${!#lists.isEmpty(allTodos)}">
@@ -128,7 +128,7 @@
             <td th:text="${entity.note}" th:onclick="'editTodo(' + ${entity.id} + ', this, \'note\');'"></td>
             <td>
                 <form class="inline" method="post" th:id="'delete' + ${entity.id}" th:action="@{/todos/__${entity.id}__/delete}">
-                    <input type="button" value="Remove" th:onclick="'confirmDeleteTodo(\'#delete' + ${entity.id} + '\');'"/>
+                    <input type="button" value="Remove" class="btn-remove" th:onclick="'confirmDeleteTodo(\'#delete' + ${entity.id} + '\');'"/>
                 </form>
             </td>
         </tr>

@@ -14,7 +14,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 
 @Controller
 @RequestMapping("todos")
@@ -25,7 +24,7 @@ public class TodoController {
     private TodoService todoService;
 
     @RequestMapping
-    public String index(Principal principal, TodoForm form, TodoUpdateForm updateForm, Model model) {
+    public String index(Principal principal, TodoForm form, Model model) {
         model.addAttribute("allTodoStates", todoStateService.findAll());
 
         Authentication authentication = (Authentication) principal;
@@ -36,9 +35,9 @@ public class TodoController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(Principal principal, @Validated TodoForm form, TodoUpdateForm updateForm, BindingResult bindingResult, Model model) {
+    public String create(Principal principal, @Validated TodoForm form, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return index(principal, form, updateForm, model);
+            return index(principal, form, model);
         }
         Authentication authentication = (Authentication) principal;
         User user = (User) authentication.getPrincipal();
@@ -50,7 +49,7 @@ public class TodoController {
     @ResponseBody
     public String update(@RequestBody TodoUpdateForm form) {
         todoService.update(form);
-        return "{result: 0}";
+        return "{\"result\": 0}";
     }
 
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
