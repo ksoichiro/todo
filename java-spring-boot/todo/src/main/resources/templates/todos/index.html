@@ -2,117 +2,65 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>TODO</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/jquery-ui-themes/1.11.3/smoothness/jquery-ui.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.2-2/css/bootstrap.min.css}" />
     <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,900' rel='stylesheet' type='text/css'/>
     <link rel="stylesheet" type="text/css" href="/css/main.css" />
-    <script src="/webjars/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/webjars/jquery-ui/1.11.3/jquery-ui.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/webjars/jquery-ui-themes/1.11.3/smoothness/jquery-ui.min.css" />
-    <script language="javascript">
-        $(function () {
-            var token = $("meta[name='_csrf']").attr("content");
-            var header = $("meta[name='_csrf_header']").attr("content");
-            $(document).ajaxSend(function(e, xhr, options) {
-               xhr.setRequestHeader(header, token);
-            });
-        });
-        function confirmDeleteTodo(id) {
-            $('#dialog_confirm_delete').html('Are you sure to delete?');
-            $('#dialog_confirm_delete').dialog({
-                modal: true,
-                title: 'Warning',
-                buttons: {
-                    'OK': function() {
-                        $(this).dialog('close');
-                        $(id).submit();
-                    },
-                    'Cancel': function() {
-                        $(this).dialog('close');
-                    }
-                },
-                open: function() {
-                    $(this).siblings('.ui-dialog-buttonpane').find('button:eq(1)').focus();
-                }
-            });
-        }
-        function editTodo(entityId, td, id) {
-            var child;
-            var text;
-            if ($(td).children().length == 0) {
-                text = $(td).text();
-                $(td).text('');
-                child = $("<input />", {
-                    'id': id,
-                    'value': text
-                });
-                child.appendTo($(td));
-            } else if ($(td).children().first().is(':visible')) {
-                return;
-            } else {
-                $(td).text('');
-                child = $(td).children().first();
-                child.show();
-            }
-            child.focusout(function() {
-                if (child.val().length == 0) {
-                    $(td).text(text);
-                    child.hide();
-                } else {
-                    var params = {};
-                    params['id'] = entityId;
-                    params[id] = child.val();
-                    $.ajax({
-                        type: 'POST',
-                        datatype : "json",
-                        contentType: "application/json; charset=utf-8",
-                        url: '/todos/' + entityId + '/update',
-                        data: JSON.stringify(params),
-                        success: function(data) {
-                            $(td).text(child.val());
-                        },
-                        error: function(XMLHttpRequest, textStatus, errorThrown) {
-                            $(td).text(text);
-                        }
-                    });
-                }
-            });
-            child.focus();
-        }
-    </script>
 </head>
 <body>
-<div id="container">
 
-<div id="header" th:replace="fragments/header :: header">
-    <div id="header_content">
-        <h1>TODO dummy</h1>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" th:href="@{/}">TODO</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span><span class="username" th:inline="text">[[${#httpServletRequest.remoteUser}]]</span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#" th:href="@{/logout}">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </div>
+</nav>
+
+<div class="container">
+
+<div class="form-group">
+    <form id="newTodo" th:action="@{/todos/create}" th:object="${todoForm}" method="post" class="form-inline">
+        <label class="sr-only" for="title">Title:</label>
+        <input type="text" th:field="*{title}" placeholder="Title" class="form-control" />
+        <label class="sr-only" for="note">Note:</label>
+        <input type="text" th:field="*{note}" placeholder="Note" class="form-control" />
+        <label class="sr-only" for="todoStateId">Status:</label>
+        <select th:field="*{todoStateId}" class="form-control">
+            <option th:each="state : ${allTodoStates}"
+                    th:value="${state.id}"
+                    th:text="${state.description}"></option>
+        </select>
+        <input type="submit" class="btn btn-primary" value="Save" />
+        <div class="alert alert-warning" th:if="${#fields.hasErrors()}" th:errors="*">Error</div>
+    </form>
 </div>
 
-<div id="content">
-
-<h2 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h2>
-
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Logout" />
-</form>
-
-<form id="newTodo" th:action="@{/todos/create}" th:object="${todoForm}" method="post">
-    <label for="title">Title:</label><input type="text" th:field="*{title}" />
-    <label for="note">Note:</label><input type="text" th:field="*{note}" />
-    <label for="todoStateId">Status:</label>
-    <select th:field="*{todoStateId}">
-        <option th:each="state : ${allTodoStates}"
-                th:value="${state.id}"
-                th:text="${state.description}"></option>
-    </select>
-    <input type="submit" class="btn-save" value="Save" />
-    <div class="error" th:if="${#fields.hasErrors()}" th:errors="*">Error</div>
-</form>
-
-<table class="list" th:if="${!#lists.isEmpty(allTodos)}">
+<table class="table table-hover" th:if="${!#lists.isEmpty(allTodos)}">
     <thead>
         <th>Id</th>
         <th>Title</th>
@@ -127,8 +75,8 @@
             <td th:text="${entity.todoState.description}"></td>
             <td th:text="${entity.note}" th:onclick="'editTodo(' + ${entity.id} + ', this, \'note\');'"></td>
             <td>
-                <form class="inline" method="post" th:id="'delete' + ${entity.id}" th:action="@{/todos/__${entity.id}__/delete}">
-                    <input type="button" value="Remove" class="btn-remove" th:onclick="'confirmDeleteTodo(\'#delete' + ${entity.id} + '\');'"/>
+                <form class="form-inline" method="post" th:id="'delete' + ${entity.id}" th:action="@{/todos/__${entity.id}__/delete}">
+                    <input type="button" value="Remove" class="btn btn-danger btn-sm" th:onclick="'confirmDeleteTodo(\'#delete' + ${entity.id} + '\');'"/>
                 </form>
             </td>
         </tr>
@@ -138,6 +86,81 @@
 <div id="dialog_confirm_delete"></div>
 
 </div>
-</div>
+
+<script th:src="@{/webjars/jquery/2.1.3/jquery.min.js}"></script>
+<script th:src="@{/webjars/jquery-ui/1.11.3/jquery-ui.min.js}"></script>
+<script language="javascript">
+    $(function () {
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        $(document).ajaxSend(function(e, xhr, options) {
+           xhr.setRequestHeader(header, token);
+        });
+    });
+    function confirmDeleteTodo(id) {
+        $('#dialog_confirm_delete').html('Are you sure to delete?');
+        $('#dialog_confirm_delete').dialog({
+            modal: true,
+            title: 'Warning',
+            buttons: {
+                'OK': function() {
+                    $(this).dialog('close');
+                    $(id).submit();
+                },
+                'Cancel': function() {
+                    $(this).dialog('close');
+                }
+            },
+            open: function() {
+                $(this).siblings('.ui-dialog-buttonpane').find('button:eq(1)').focus();
+            }
+        });
+    }
+    function editTodo(entityId, td, id) {
+        var child;
+        var text;
+        if ($(td).children().length == 0) {
+            text = $(td).text();
+            $(td).text('');
+            child = $("<input />", {
+                'id': id,
+                'value': text,
+                'class': 'form-control'
+            });
+            child.appendTo($(td));
+        } else if ($(td).children().first().is(':visible')) {
+            return;
+        } else {
+            $(td).text('');
+            child = $(td).children().first();
+            child.show();
+        }
+        child.focusout(function() {
+            if (child.val().length == 0) {
+                $(td).text(text);
+                child.hide();
+            } else {
+                var params = {};
+                params['id'] = entityId;
+                params[id] = child.val();
+                $.ajax({
+                    type: 'POST',
+                    datatype : "json",
+                    contentType: "application/json; charset=utf-8",
+                    url: '/todos/' + entityId + '/update',
+                    data: JSON.stringify(params),
+                    success: function(data) {
+                        $(td).text(child.val());
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        $(td).text(text);
+                    }
+                });
+            }
+        });
+        child.focus();
+    }
+</script>
+<script th:src="@{/webjars/bootstrap/3.3.2-2/js/bootstrap.min.js}"></script>
 </body>
 </html>
