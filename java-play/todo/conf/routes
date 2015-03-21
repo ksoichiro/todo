@@ -9,7 +9,9 @@ GET     /login                      controllers.Application.login()
 GET     /todos                      controllers.Todo.index()
 POST    /todos/create               controllers.Todo.create()
 POST    /todos/:id/update           controllers.Todo.update(id: Long)
-POST    /todos/:id/delete            controllers.Todo.delete(id: Long)
+POST    /todos/:id/delete           controllers.Todo.delete(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
+GET     /vassets/*file              controllers.Assets.versioned(path="/public", file: Asset)
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /webjars/*file              controllers.WebJarAssets.at(file)
