@@ -23,7 +23,7 @@ pipelineStages := Seq(digest, gzip)
 
 includeFilter in (Assets, LessKeys.less) := "*.less"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala)
+lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
 fork in run := true
 

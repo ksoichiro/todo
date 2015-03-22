@@ -1,4 +1,4 @@
-@(form: play.data.Form[views.formdata.Login])
+@(form: Form[views.formdata.Login])
 
 @main("TODO login") {
 
@@ -22,9 +22,11 @@
         <p>This is a tiny TODO management system.</p>
 
         @if(form.hasGlobalErrors) {
-            <div class="alert alert-warning">@form.globalError.message</div>
+        <div class="alert alert-warning">@form.globalError.message</div>
         }
-        <div class="alert alert-info">You have been logged out.</div>
+        @if(flash.containsKey("success")) {
+        <div class="alert alert-info">@flash.get("success")</div>
+        }
 
         @helper.form(routes.Application.authenticate(), 'class -> "form-signin") {
         <label for="username" class="sr-only">Username</label>
