@@ -1,86 +1,48 @@
 package models;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.mindrot.jbcrypt.BCrypt;
+import play.db.ebean.Model;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class User {
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class User extends Model {
     @Id
     @GeneratedValue
-    private Long id;
+    public Long id;
 
     @Column(nullable = false, unique = true)
-    private String username;
+    public String username;
 
     @Column(nullable = false)
-    private String password;
+    public String password;
 
-    private boolean enabled;
-
-    @Column(nullable = false)
-    private Long createdAt;
+    public boolean enabled;
 
     @Column(nullable = false)
-    private Long updatedAt;
+    public Long createdAt;
+
+    @Column(nullable = false)
+    public Long updatedAt;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "role_user", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    public Set<Role> roles;
 
-    public Long getId() {
-        return id;
-    }
+    public static Finder<String, User> find = new Finder<>(String.class, User.class);
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public Long getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Long createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Long getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Long updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public static User authenticate(String username, String password) {
+        User user = find.where().eq("username", username).findUnique();
+        final boolean matched = BCrypt.checkpw(password, user.password);
+        if (matched) {
+            return user;
+        }
+        return null;
     }
 }
