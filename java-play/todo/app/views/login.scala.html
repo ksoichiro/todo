@@ -21,7 +21,9 @@
         <h1>Welcome!</h1>
         <p>This is a tiny TODO management system.</p>
 
-        <div class="alert alert-warning">Invalid username and password.</div>
+        @if(form.hasGlobalErrors) {
+            <div class="alert alert-warning">@form.globalError.message</div>
+        }
         <div class="alert alert-info">You have been logged out.</div>
 
         @helper.form(routes.Application.authenticate(), 'class -> "form-signin") {
