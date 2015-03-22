@@ -1,4 +1,4 @@
-@(form: play.data.Form[views.formdata.TodoForm])
+@(form: play.data.Form[views.formdata.TodoForm], user: User)
 
 @main("TODO") {
 
@@ -17,7 +17,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span><span class="username">username</span>
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span><span class="username">@user.username</span>
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
