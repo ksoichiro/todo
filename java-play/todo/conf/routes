@@ -6,6 +6,7 @@
 GET     /                           controllers.Application.index()
 GET     /login                      controllers.Application.login()
 POST    /login                      controllers.Application.authenticate()
+GET     /logout                     controllers.Application.logout()
 
 GET     /todos                      controllers.Todo.index()
 POST    /todos/create               controllers.Todo.create()

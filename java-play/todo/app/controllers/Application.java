@@ -4,20 +4,22 @@ import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.formdata.Login;
-import views.html.index;
 import views.html.login;
 
 import static play.data.Form.form;
 
 public class Application extends Controller {
     public static Result index() {
-        return ok(index.render("Your new application is ready."));
+        return redirect(routes.Todo.index());
     }
 
     public static Result login() {
-        return ok(
-                login.render(form(Login.class).fill(new Login()))
-        );
+        return ok(login.render(form(Login.class).fill(new Login())));
+    }
+
+    public static Result logout() {
+        session().clear();
+        return redirect(routes.Application.login());
     }
 
     public static Result authenticate() {
@@ -25,6 +27,6 @@ public class Application extends Controller {
         if (form.hasErrors()) {
             return badRequest(login.render(form));
         }
-        return redirect(routes.Application.index());
+        return redirect(routes.Todo.index());
     }
 }
