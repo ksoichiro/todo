@@ -1,6 +1,10 @@
 @(form: Form[views.formdata.TodoForm])
 
+@implicitField = @{ helper.FieldConstructor(views.html.field.todoFieldConstructorTemplate.f) }
+
 @main("TODO") {
+
+<script data-main='@routes.Assets.versioned("javascripts/todo.js")' src='@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js"))'></script>
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
@@ -33,10 +37,9 @@
 
     <div class="form-group">
         @helper.form(routes.Todo.create(), 'id -> "newTodo", 'class -> "form-inline") {
-            <label class="sr-only" for="title">Title:</label>
-            <input type="text" id="title" placeholder="Title" class="form-control" />
-            <label class="sr-only" for="note">Note:</label>
-            <input type="text" id="note" placeholder="Note" class="form-control" />
+            @helper.inputText(form("title"), '_label -> "Title:", 'class -> "form-control", 'placeholder -> "Title")
+            @helper.inputText(form("note"), '_label -> "Note:", 'class -> "form-control", 'placeholder -> "Note")
+            @helper.select(form("todoStateId"), helper.options(TodoState.options), '_label -> "Status:", 'class -> "form-control")
             <input type="submit" class="btn btn-primary" value="Save" />
             <div class="alert alert-warning">Error</div>
         }
@@ -75,71 +78,5 @@
     </div>
 
 </div>
-
-<script language="javascript">
-    $(function () {
-        var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
-        $(document).ajaxSend(function(e, xhr, options) {
-           xhr.setRequestHeader(header, token);
-        });
-
-        $('#dialog_confirm_delete').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget)
-            var deleteTarget = button.data('delete')
-            var modal = $(this)
-            modal.find('.modal-footer button.positive').attr('data-delete', deleteTarget)
-        })
-        $('#dialog_confirm_delete .modal-footer .positive').on('click', function() {
-            $('#dialog_confirm_delete').modal('hide')
-            var deleteTarget = $('#dialog_confirm_delete .modal-footer button.positive').attr('data-delete')
-            $('#delete' + deleteTarget).submit();
-        })
-    });
-    function editTodo(entityId, td, id) {
-        var child;
-        var text;
-        if ($(td).children().length == 0) {
-            text = $(td).text();
-            $(td).text('');
-            child = $("<input />", {
-                'id': id,
-                'value': text,
-                'class': 'form-control'
-            });
-            child.appendTo($(td));
-        } else if ($(td).children().first().is(':visible')) {
-            return;
-        } else {
-            $(td).text('');
-            child = $(td).children().first();
-            child.show();
-        }
-        child.focusout(function() {
-            if (child.val().length == 0) {
-                $(td).text(text);
-                child.hide();
-            } else {
-                var params = {};
-                params['id'] = entityId;
-                params[id] = child.val();
-                $.ajax({
-                    type: 'POST',
-                    datatype : "json",
-                    contentType: "application/json; charset=utf-8",
-                    url: '/todos/' + entityId + '/update',
-                    data: JSON.stringify(params),
-                    success: function(data) {
-                        $(td).text(child.val());
-                    },
-                    error: function(XMLHttpRequest, textStatus, errorThrown) {
-                        $(td).text(text);
-                    }
-                });
-            }
-        });
-        child.focus();
-    }
-</script>
 
 }

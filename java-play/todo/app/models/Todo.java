@@ -1,9 +1,12 @@
 package models;
 
+import play.db.ebean.Model;
+import views.formdata.TodoForm;
+
 import javax.persistence.*;
 
 @Entity
-public class Todo {
+public class Todo extends Model {
     @Id
     @GeneratedValue
     private Long id;
@@ -103,5 +106,17 @@ public class Todo {
 
     public void setTodoState(TodoState todoState) {
         this.todoState = todoState;
+    }
+
+    public static Todo makeInstance(TodoForm form) {
+        Todo todo = new Todo();
+        todo.setTitle(form.title);
+        todo.setNote(form.note);
+        todo.setOwnerType(0);
+        todo.setTodoState(TodoState.find.byId(form.todoStateId));
+        todo.setGroupId(0L);
+        todo.setCreatedAt(System.currentTimeMillis());
+        todo.setUpdatedAt(System.currentTimeMillis());
+        return todo;
     }
 }

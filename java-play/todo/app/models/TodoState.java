@@ -1,8 +1,12 @@
 package models;
 
+import play.db.ebean.Model;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Entity
 public class TodoState {
@@ -57,5 +61,15 @@ public class TodoState {
 
     public void setUpdatedAt(Long updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public static Model.Finder<String, TodoState> find = new Model.Finder<>(String.class, TodoState.class);
+
+    public static Map<String,String> options() {
+        LinkedHashMap<String,String> options = new LinkedHashMap<>();
+        for(TodoState t: find.orderBy("id").findList()) {
+            options.put(t.id.toString(), t.description);
+        }
+        return options;
     }
 }
