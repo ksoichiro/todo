@@ -1,6 +1,9 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.data.Form;
+import play.libs.Json;
+import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
@@ -28,8 +31,24 @@ public class Todo extends Controller {
         return redirect(routes.Todo.index());
     }
 
+    @BodyParser.Of(BodyParser.Json.class)
     public static Result update(Long id) {
-        return ok("");
+        ObjectNode result = Json.newObject();
+
+        models.Todo entity = models.Todo.find.byId(id.toString());
+        Form<TodoForm> form = form(TodoForm.class).bindFromRequest();
+        TodoForm todoForm = form.get();
+        if (todoForm.title != null) {
+            entity.setTitle(todoForm.title);
+        }
+        if (todoForm.note != null) {
+            entity.setNote(todoForm.note);
+        }
+        entity.setUpdatedAt(System.currentTimeMillis());
+        entity.update();
+
+        result.put("result", 0);
+        return ok(result);
     }
 
     public static Result delete(Long id) {

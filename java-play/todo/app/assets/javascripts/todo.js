@@ -14,7 +14,6 @@ require(["jquery", "bootstrap"], function($, bootstrap) {
 
         $('#todolist').find('[data-edit-type]').each(function(index) {
             $(this).on('click', function(e) {
-                console.log("Click!");
                 var entityId = $(this).data('id');
                 var td = $(this);
                 var id = $(this).data('edit-type');
