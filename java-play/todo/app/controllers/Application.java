@@ -1,5 +1,6 @@
 package controllers;
 
+import models.User;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -32,6 +33,7 @@ public class Application extends Controller {
         }
         session().clear();
         session("username", form.get().username);
+        session("user_id", User.find.where().eq("username", form.get().username).findUnique().id.toString());
         return redirect(routes.Todo.index());
     }
 }

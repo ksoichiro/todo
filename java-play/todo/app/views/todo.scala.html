@@ -1,4 +1,4 @@
-@(form: Form[views.formdata.TodoForm])
+@(form: Form[views.formdata.TodoForm], allTodos: List[models.Todo])
 
 @implicitField = @{ helper.FieldConstructor(views.html.field.todoFieldConstructorTemplate.f) }
 
@@ -47,13 +47,26 @@
 
     <table class="table table-hover">
         <thead>
-        <th>Id</th>
-        <th>Title</th>
-        <th>Status</th>
-        <th>Note</th>
-        <th>&nbsp;</th>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Note</th>
+            <th>&nbsp;</th>
         </thead>
         <tbody>
+        @for(entity <- allTodos) {
+        <tr>
+            <td>@entity.getId()</td>
+            <td onclick="'editTodo(' + @entity.getId() + ', this, \'title\');'">@entity.getTitle()</td>
+            <td>@entity.getTodoState().getDescription()</td>
+            <td onclick="'editTodo(' + @entity.getId() + ', this, \'note\');'">@entity.getNote()</td>
+            <td>
+                @helper.form(routes.Todo.delete(entity.getId()), 'id -> ("delete" + entity.getId().toString()), 'class -> "form-inline") {
+                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#dialog_confirm_delete" data-delete="@entity.getId()">Delete</button>
+                }
+            </td>
+        </tr>
+        }
         </tbody>
     </table>
 

@@ -108,6 +108,8 @@ public class Todo extends Model {
         this.todoState = todoState;
     }
 
+    public static Finder<String, Todo> find = new Finder<>(String.class, Todo.class);
+
     public static Todo makeInstance(TodoForm form) {
         Todo todo = new Todo();
         todo.setTitle(form.title);
