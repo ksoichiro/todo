@@ -40,7 +40,15 @@
             @helper.inputText(form("note"), '_label -> "Note:", 'class -> "form-control", 'placeholder -> "Note")
             @helper.select(form("todoStateId"), helper.options(TodoState.options), '_label -> "Status:", 'class -> "form-control")
             <input type="submit" class="btn btn-primary" value="Save" />
-            <div class="alert alert-warning">Error</div>
+            @if(form.hasErrors) {
+            <div class="alert alert-warning">
+                @for(entry <- form.errors.entrySet){
+                    @for(error <- entry.getValue){
+                        @error.key: @Messages(error.message, error.arguments)
+                    }
+                }
+            </div>
+            }
         }
     </div>
 
