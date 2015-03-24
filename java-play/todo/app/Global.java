@@ -2,7 +2,9 @@ import play.Application;
 import play.GlobalSettings;
 import play.Logger;
 import play.Play;
+import play.api.mvc.EssentialFilter;
 import play.db.DB;
+import play.filters.csrf.CSRFFilter;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -37,5 +39,10 @@ public class Global extends GlobalSettings {
         } catch (Exception e) {
             throw new RuntimeException("Failed to load initial data", e);
         }
+    }
+
+    @Override
+    public <T extends EssentialFilter> Class<T>[] filters() {
+        return new Class[]{CSRFFilter.class};
     }
 }

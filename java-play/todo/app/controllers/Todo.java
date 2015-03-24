@@ -1,6 +1,5 @@
 package controllers;
 
-import models.User;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -34,6 +33,7 @@ public class Todo extends Controller {
     }
 
     public static Result delete(Long id) {
+        models.Todo.find.byId(id.toString()).delete();
         return redirect(routes.Todo.index());
     }
 

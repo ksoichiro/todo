@@ -9,6 +9,7 @@ libraryDependencies ++= Seq(
   javaEbean,
   cache,
   javaWs,
+  filters,
   "org.projectlombok" % "lombok" % "1.16.2",
   "mysql" % "mysql-connector-java" % "5.1.34",
   "org.webjars" %% "webjars-play" % "2.3.0-2",

@@ -2,6 +2,8 @@
 
 @main("TODO login") {
 
+<script data-main='@routes.Assets.versioned("javascripts/index.js")' src='@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js"))'></script>
+
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -29,6 +31,7 @@
         }
 
         @helper.form(routes.Application.authenticate(), 'class -> "form-signin") {
+            @helper.CSRF.formField
         <label for="username" class="sr-only">Username</label>
         <input type="text" id="username" name="username" class="form-control" placeholder="Username" required="true" autofocus="true" />
         <label for="password" class="sr-only">Password</label>
