@@ -42,7 +42,7 @@ require ["jquery", "bootstrap"], ($, bootstrap) ->
                             type: 'POST',
                             datatype : "json",
                             contentType: "application/json; charset=utf-8",
-                            url: "/todos/#{entityId}/update",
+                            url: @routes.Todo.update(entityId),
                             data: JSON.stringify(params),
                             success: (data) -> $(td).text child.val(),
                             error: (XMLHttpRequest, textStatus, errorThrown) -> $(td).text text
