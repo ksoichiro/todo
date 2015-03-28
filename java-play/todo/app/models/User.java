@@ -14,26 +14,26 @@ import java.util.Set;
 public class User extends Model {
     @Id
     @GeneratedValue
-    public Long id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
-    public String username;
+    private String username;
 
     @Column(nullable = false)
-    public String password;
+    private String password;
 
-    public boolean enabled;
-
-    @Column(nullable = false)
-    public Long createdAt;
+    private boolean enabled;
 
     @Column(nullable = false)
-    public Long updatedAt;
+    private Long createdAt;
+
+    @Column(nullable = false)
+    private Long updatedAt;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "role_user", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    public Set<Role> roles;
+    private Set<Role> roles;
 
     public static Finder<String, User> find = new Finder<>(String.class, User.class);
 

@@ -33,7 +33,7 @@ public class Application extends Controller {
         }
         session().clear();
         session("username", form.get().username);
-        session("user_id", User.find.where().eq("username", form.get().username).findUnique().id.toString());
+        session("user_id", User.find.where().eq("username", form.get().username).findUnique().getId().toString());
         return redirect(routes.Todo.index());
     }
 }
