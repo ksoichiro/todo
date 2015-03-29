@@ -1,0 +1,25 @@
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+.form-signin {
+  max-width: 330px;
+  padding: 15px 0 0 0;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .btn {
+    margin-top: 10px;
+}
+body > .container {
+    margin-top: 15px;
+}
+.username {
+    margin-left: 10px;
+}
+
+#newTodo .alert {
+    margin-top: 10px;
+}

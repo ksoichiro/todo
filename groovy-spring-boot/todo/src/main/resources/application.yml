@@ -1,0 +1,11 @@
+spring:
+    datasource:
+        driverClassName: com.mysql.jdbc.Driver
+        url: jdbc:mysql://192.168.33.13:3306/test
+        username: sa
+        password: password
+    jpa:
+        hibernate:
+            ddl-auto: ''
+    thymeleaf:
+        cache: false
