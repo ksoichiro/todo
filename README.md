@@ -13,10 +13,10 @@ Please watch it warmly, because actually I'm new to almost all of the frameworks
 ## Contents
 
 * Java
-    * [Spring Boot](java-spring-boot)
-    * [Play Framework 2](java-play)
+    * [Spring Boot](java-spring-boot/todo)
+    * [Play Framework 2](java-play/todo)
 * Groovy
-    * [Spring Boot](groovy-spring-boot)
+    * [Spring Boot](groovy-spring-boot/todo)
 
 ## License
 
