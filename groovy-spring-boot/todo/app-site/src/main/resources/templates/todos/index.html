@@ -7,7 +7,7 @@
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>TODO</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.2-2/css/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap/dist/css/bootstrap.min.css}" />
     <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,900' rel='stylesheet' type='text/css'/>
     <link rel="stylesheet" type="text/css" href="/css/main.css" />
 </head>
@@ -104,7 +104,7 @@
 
 </div>
 
-<script th:src="@{/webjars/jquery/2.1.3/jquery.min.js}"></script>
+<script th:src="@{/lib/jquery/dist/jquery.min.js}"></script>
 <script language="javascript">
     $(function () {
         var token = $("meta[name='_csrf']").attr("content");
@@ -170,6 +170,6 @@
         child.focus();
     }
 </script>
-<script th:src="@{/webjars/bootstrap/3.3.2-2/js/bootstrap.min.js}"></script>
+<script th:src="@{/lib/bootstrap/dist/js/bootstrap.min.js}"></script>
 </body>
 </html>

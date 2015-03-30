@@ -1,4 +1,8 @@
-var filter = require('gulp-filter'),
+var gulpFilter = require('gulp-filter'),
+    gutil = require('gulp-util'),
+    uglify = require('gulp-uglify'),
+    bowerSrc = require('gulp-bower-src'),
+    sourcemaps = require('gulp-sourcemaps'),
     cssmin = require('gulp-minify-css'),
     gulp = require('gulp');
 
@@ -16,4 +20,15 @@ gulp.task('minify-css', function() {
         .pipe(gulp.dest(paths.dest + 'css'));
 });
 
-gulp.task('build', ['minify-css'], function() {});
+gulp.task('bower-files', function() {
+    var filter = gulpFilter(["**/*.js", "!**/*.min.js"]);
+    return bowerSrc()
+        .pipe(sourcemaps.init())
+        .pipe(filter)
+        .pipe(uglify())
+        .pipe(filter.restore())
+        .pipe(sourcemaps.write("./"))
+        .pipe(gulp.dest(paths.dest+'lib'));
+});
+
+gulp.task('build', ['minify-css', 'bower-files'], function() {});
