@@ -3,20 +3,22 @@ var gulpFilter = require('gulp-filter'),
     uglify = require('gulp-uglify'),
     bowerSrc = require('gulp-bower-src'),
     sourcemaps = require('gulp-sourcemaps'),
+    less = require('gulp-less'),
     cssmin = require('gulp-minify-css'),
     gulp = require('gulp');
 
 var paths = {
-    css: {
-        files: ['src/css/*.css'],
-        root: 'src/css'
+    less: {
+        files: ['src/less/*.less'],
+        root: 'src/less'
     },
     dest: './dist/'
 };
 
-gulp.task('minify-css', function() {
-    return gulp.src(paths.css.files)
-        .pipe(cssmin({root: paths.css.root}))
+gulp.task('less', function() {
+    return gulp.src(paths.less.files)
+        .pipe(less())
+        .pipe(cssmin({root: paths.less.root}))
         .pipe(gulp.dest(paths.dest + 'css'));
 });
 
@@ -31,4 +33,4 @@ gulp.task('bower-files', function() {
         .pipe(gulp.dest(paths.dest+'lib'));
 });
 
-gulp.task('build', ['minify-css', 'bower-files'], function() {});
+gulp.task('build', ['less', 'bower-files'], function() {});
