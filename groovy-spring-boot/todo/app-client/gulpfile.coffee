@@ -8,17 +8,14 @@ less = require 'gulp-less'
 cssmin = require 'gulp-minify-css'
 gulp = require 'gulp'
 
-paths = {
-    less: {
-        files: ['src/stylesheets/*.less'],
+paths =
+    less:
+        files: ['src/stylesheets/*.less']
         root: 'src/stylesheets'
-    },
-    coffee: {
-        files: ['src/javascripts/*.coffee'],
+    coffee:
+        files: ['src/javascripts/*.coffee']
         root: 'src/javascripts'
-    },
     dest: './dist/'
-}
 
 gulp.task 'less', ->
     gulp.src paths.less.files
