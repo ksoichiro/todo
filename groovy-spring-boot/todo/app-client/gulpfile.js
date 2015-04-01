@@ -9,8 +9,8 @@ var gulpFilter = require('gulp-filter'),
 
 var paths = {
     less: {
-        files: ['src/less/*.less'],
-        root: 'src/less'
+        files: ['src/stylesheets/*.less'],
+        root: 'src/stylesheets'
     },
     dest: './dist/'
 };
