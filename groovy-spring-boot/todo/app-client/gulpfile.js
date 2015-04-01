@@ -3,6 +3,7 @@ var gulpFilter = require('gulp-filter'),
     uglify = require('gulp-uglify'),
     bowerSrc = require('gulp-bower-src'),
     sourcemaps = require('gulp-sourcemaps'),
+    coffee = require('gulp-coffee'),
     less = require('gulp-less'),
     cssmin = require('gulp-minify-css'),
     gulp = require('gulp');
@@ -12,8 +13,8 @@ var paths = {
         files: ['src/stylesheets/*.less'],
         root: 'src/stylesheets'
     },
-    js: {
-        files: ['src/javascripts/*.js'],
+    coffee: {
+        files: ['src/javascripts/*.coffee'],
         root: 'src/javascripts'
     },
     dest: './dist/'
@@ -26,12 +27,10 @@ gulp.task('less', function() {
         .pipe(gulp.dest(paths.dest + 'css'));
 });
 
-gulp.task('js', function() {
-    var filter = gulpFilter(["**/*.js", "!**/*.min.js"]);
-    return gulp.src(paths.js.files)
-        .pipe(filter)
+gulp.task('coffee', function() {
+    return gulp.src(paths.coffee.files)
+        .pipe(coffee())
         .pipe(uglify())
-        .pipe(filter.restore())
         .pipe(gulp.dest(paths.dest + 'js'));
 });
 
@@ -46,4 +45,4 @@ gulp.task('bower-files', function() {
         .pipe(gulp.dest(paths.dest + 'lib'));
 });
 
-gulp.task('build', ['less', 'js', 'bower-files'], function() {});
+gulp.task('build', ['less', 'coffee', 'bower-files'], function() {});

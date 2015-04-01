@@ -59,7 +59,7 @@
     </form>
 </div>
 
-<table class="table table-hover" th:if="${!#lists.isEmpty(allTodos)}">
+<table id="todolist" class="table table-hover" th:if="${!#lists.isEmpty(allTodos)}">
     <thead>
         <th>Id</th>
         <th>Title</th>
@@ -70,9 +70,9 @@
     <tbody>
         <tr th:each="entity,rowStat : ${allTodos}">
             <td th:text="${entity.id}"></td>
-            <td th:text="${entity.title}" th:onclick="'editTodo(' + ${entity.id} + ', this, \'title\');'"></td>
+            <td th:text="${entity.title}" th:attr="data-id=${entity.id}" data-edit-type="title"></td>
             <td th:text="${entity.todoState.description}"></td>
-            <td th:text="${entity.note}" th:onclick="'editTodo(' + ${entity.id} + ', this, \'note\');'"></td>
+            <td th:text="${entity.note}" th:attr="data-id=${entity.id}" data-edit-type="note"></td>
             <td>
                 <form class="form-inline" method="post" th:id="'delete' + ${entity.id}" th:action="@{/todos/__${entity.id}__/delete}">
                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#dialog_confirm_delete" th:attr="data-delete=${entity.id}">Delete</button>
