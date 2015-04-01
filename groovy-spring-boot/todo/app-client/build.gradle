@@ -27,7 +27,7 @@ task npmBuild(dependsOn: npmInstall, type: Exec) {
     logging.captureStandardOutput LogLevel.INFO
     logging.captureStandardError LogLevel.INFO
     inputs.dir "src"
-    inputs.file "gulpfile.js"
+    inputs.file "gulpfile.coffee"
     outputs.dir "dist"
     if(Os.isFamily(Os.FAMILY_WINDOWS)) {
         commandLine 'cmd', '/c', 'npm', 'run', 'build'
