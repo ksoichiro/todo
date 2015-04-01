@@ -1,0 +1,19 @@
+{
+  "name": "todo",
+  "description": "bower components for todo UI.",
+  "dependencies": {
+    "jquery": "1.11.2",
+    "bootstrap": "3.3.4"
+  },
+  "overrides": {
+    "jquery": {
+      "ignore": ["*.json"]
+    },
+    "bootstrap": {
+      "ignore": [
+        "js/**", "less/**", "docs/build/**",
+        "docs/examples/**", "docs/templates/**", "docs/*.html"
+      ]
+    }
+  }
+}
