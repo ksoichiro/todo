@@ -12,6 +12,10 @@ var paths = {
         files: ['src/stylesheets/*.less'],
         root: 'src/stylesheets'
     },
+    js: {
+        files: ['src/javascripts/*.js'],
+        root: 'src/javascripts'
+    },
     dest: './dist/'
 };
 
@@ -22,6 +26,15 @@ gulp.task('less', function() {
         .pipe(gulp.dest(paths.dest + 'css'));
 });
 
+gulp.task('js', function() {
+    var filter = gulpFilter(["**/*.js", "!**/*.min.js"]);
+    return gulp.src(paths.js.files)
+        .pipe(filter)
+        .pipe(uglify())
+        .pipe(filter.restore())
+        .pipe(gulp.dest(paths.dest + 'js'));
+});
+
 gulp.task('bower-files', function() {
     var filter = gulpFilter(["**/*.js", "!**/*.min.js"]);
     return bowerSrc()
@@ -30,7 +43,7 @@ gulp.task('bower-files', function() {
         .pipe(uglify())
         .pipe(filter.restore())
         .pipe(sourcemaps.write("./"))
-        .pipe(gulp.dest(paths.dest+'lib'));
+        .pipe(gulp.dest(paths.dest + 'lib'));
 });
 
-gulp.task('build', ['less', 'bower-files'], function() {});
+gulp.task('build', ['less', 'js', 'bower-files'], function() {});
