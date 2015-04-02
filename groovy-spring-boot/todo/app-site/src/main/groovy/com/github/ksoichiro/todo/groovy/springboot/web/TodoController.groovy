@@ -29,7 +29,7 @@ public class TodoController {
 
         Authentication authentication = (Authentication) principal
         User user = (User) authentication.getPrincipal()
-        model.addAttribute("allTodos", todoService.findAll(user.getId()))
+        model.addAttribute("allTodos", todoService.findAll(user.id))
 
         "todos/index"
     }
@@ -41,7 +41,7 @@ public class TodoController {
         }
         Authentication authentication = (Authentication) principal
         User user = (User) authentication.getPrincipal()
-        todoService.save(form, user.getId())
+        todoService.save(form, user.id)
         "redirect:/todos"
     }
 

@@ -27,32 +27,32 @@ public class TodoService {
         if (id == null || userId == null) {
             return false
         }
-        return todoRepository.findOne(id)?.getUserId()?.equals(userId);
+        return todoRepository.findOne(id)?.userId?.equals(userId);
     }
 
     public Todo save(TodoForm form, Long userId) {
         def entity = new Todo()
         entity.with {
-            title = form.getTitle()
-            note = form.getNote()
+            title = form.title
+            note = form.note
             ownerType = 0
             it.userId = userId
             groupId = 0L
             createdAt = System.currentTimeMillis()
             updatedAt = System.currentTimeMillis()
-            todoState = todoStateRepository.findOne(Long.parseLong(form.getTodoStateId()))
+            todoState = todoStateRepository.findOne(Long.parseLong(form.todoStateId))
         }
         todoRepository.save(entity)
     }
 
     public Todo update(TodoUpdateForm form) {
-        def id = Long.parseLong(form.getId())
+        def id = Long.parseLong(form.id)
         def entity = todoRepository.findOne(id)
-        if (form.getTitle()) {
+        if (form.title) {
             entity.setTitle(form.getTitle())
         }
-        if (form.getNote()) {
-            entity.setNote(form.getNote())
+        if (form.note) {
+            entity.setNote(form.note)
         }
         entity.setUpdatedAt(System.currentTimeMillis())
 

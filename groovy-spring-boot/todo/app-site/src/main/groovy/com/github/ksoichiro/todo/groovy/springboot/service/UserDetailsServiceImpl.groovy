@@ -26,17 +26,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 throw new UsernameNotFoundException("User not found for name: " + username)
             } else {
                 def authorities = []
-                if (domainUser.getRoles()) {
-                    for (Role role : domainUser.getRoles()) {
-                        authorities.add(new SimpleGrantedAuthority(role.getName()))
+                if (domainUser.roles) {
+                    for (Role role : domainUser.roles) {
+                        authorities.add(new SimpleGrantedAuthority(role.name))
                     }
                 }
-                user = new User(username, domainUser.getPassword(), domainUser.isEnabled(), true, true, true, authorities)
+                user = new User(username, domainUser.password, domainUser.enabled, true, true, true, authorities)
                 user.with {
-                    id = domainUser.getId()
-                    createdAt = domainUser.getCreatedAt()
-                    updatedAt = domainUser.getUpdatedAt()
-                    roles = domainUser.getRoles()
+                    id = domainUser.id
+                    createdAt = domainUser.createdAt
+                    updatedAt = domainUser.updatedAt
+                    roles = domainUser.roles
                 }
             }
         }
