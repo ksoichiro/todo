@@ -23,6 +23,13 @@ public class TodoService {
         list
     }
 
+    public boolean ownedBy(Long id, Long userId) {
+        if (id == null || userId == null) {
+            return false
+        }
+        return todoRepository.findOne(id)?.getUserId()?.equals(userId);
+    }
+
     public Todo save(TodoForm form, Long userId) {
         def entity = new Todo()
         entity.with {

@@ -26,6 +26,14 @@ public class TodoService {
         return list;
     }
 
+    public boolean ownedBy(Long id, Long userId) {
+        if (id == null || userId == null) {
+            return false;
+        }
+        Todo entity = todoRepository.findOne(id);
+        return entity != null && entity.getUserId().equals(userId);
+    }
+
     public Todo save(TodoForm form, Long userId) {
         Todo entity = new Todo();
         entity.setTitle(form.getTitle());

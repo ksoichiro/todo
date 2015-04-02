@@ -47,14 +47,22 @@ public class TodoController {
 
     @RequestMapping(value = "/{id}/update", method = RequestMethod.POST, consumes = ["application/json;charset=UTF-8"], produces=["application/json;charset=UTF-8"])
     @ResponseBody
-    public String update(@RequestBody TodoUpdateForm form) {
-        todoService.update(form)
+    public String update(Principal principal, @RequestBody TodoUpdateForm form) {
+        Authentication authentication = (Authentication) principal
+        User user = (User) authentication.getPrincipal()
+        if (todoService.ownedBy(form.id.toLong(), user.id)) {
+            todoService.update(form)
+        }
         "{\"result\": 0}"
     }
 
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
     public String delete(Principal principal, TodoForm form, Model model, @PathVariable Long id) {
-        todoService.delete(id)
+        Authentication authentication = (Authentication) principal
+        User user = (User) authentication.getPrincipal()
+        if (todoService.ownedBy(id, user.id)) {
+            todoService.delete(id)
+        }
         "redirect:/todos"
     }
 }
