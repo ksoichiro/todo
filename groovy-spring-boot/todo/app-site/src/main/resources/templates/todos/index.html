@@ -37,11 +37,11 @@
 
     <table id="todolist" class="table table-hover" th:if="${!#lists.isEmpty(allTodos)}">
         <thead>
-        <th>Id</th>
-        <th>Title</th>
-        <th>Status</th>
-        <th>Note</th>
-        <th>&nbsp;</th>
+            <th class="id">Id</th>
+            <th class="title">Title</th>
+            <th class="status">Status</th>
+            <th class="note">Note</th>
+            <th class="button">&nbsp;</th>
         </thead>
         <tbody>
         <tr th:each="entity,rowStat : ${allTodos}">
