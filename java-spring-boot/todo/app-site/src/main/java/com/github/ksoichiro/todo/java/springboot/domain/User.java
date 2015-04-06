@@ -40,10 +40,8 @@ public class User extends org.springframework.security.core.userdetails.User {
         super("INVALID", "INVALID", false, false, false, false, new ArrayList<GrantedAuthority>());
     }
 
-    public User(String username, String password, boolean enabled, boolean accountNonExpired,
-                boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
-        // Super class has these fields, but they're necessary for persistence.
+    public User(String username, String password, boolean enabled, Collection<? extends GrantedAuthority> authorities) {
+        super(username, password, enabled, true, true, true, authorities);
         setUsername(username);
         setPassword(password);
         setEnabled(enabled);

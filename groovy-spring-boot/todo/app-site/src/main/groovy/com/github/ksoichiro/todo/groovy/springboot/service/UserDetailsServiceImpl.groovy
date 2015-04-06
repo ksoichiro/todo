@@ -17,28 +17,25 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user
         if (null == username || "".equals(username)) {
             throw new UsernameNotFoundException("Username is empty")
-        } else {
-            User domainUser = userRepository.findByUsername(username)
-            if (!domainUser) {
-                throw new UsernameNotFoundException("User not found for name: " + username)
-            } else {
-                def authorities = []
-                if (domainUser.roles) {
-                    for (Role role : domainUser.roles) {
-                        authorities.add(new SimpleGrantedAuthority(role.name))
-                    }
-                }
-                user = new User(username, domainUser.password, domainUser.enabled, true, true, true, authorities)
-                user.with {
-                    id = domainUser.id
-                    createdAt = domainUser.createdAt
-                    updatedAt = domainUser.updatedAt
-                    roles = domainUser.roles
-                }
+        }
+        User domainUser = userRepository.findByUsername(username)
+        if (!domainUser) {
+            throw new UsernameNotFoundException("User not found for name: " + username)
+        }
+        def authorities = []
+        if (domainUser.roles) {
+            for (Role role : domainUser.roles) {
+                authorities.add(new SimpleGrantedAuthority(role.name))
             }
+        }
+        User user = new User(username, domainUser.password, domainUser.enabled, authorities)
+        user.with {
+            id = domainUser.id
+            createdAt = domainUser.createdAt
+            updatedAt = domainUser.updatedAt
+            roles = domainUser.roles
         }
         user
     }

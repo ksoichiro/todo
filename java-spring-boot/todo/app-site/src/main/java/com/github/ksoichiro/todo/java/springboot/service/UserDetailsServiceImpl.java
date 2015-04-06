@@ -21,27 +21,24 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = null;
         if (null == username || "".equals(username)) {
             throw new UsernameNotFoundException("Username is empty");
-        } else {
-            User domainUser = userRepository.findByUsername(username);
-            if (domainUser == null) {
-                throw new UsernameNotFoundException("User not found for name: " + username);
-            } else {
-                List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-                if (domainUser.getRoles() != null) {
-                    for (Role role : domainUser.getRoles()) {
-                        authorities.add(new SimpleGrantedAuthority(role.getName()));
-                    }
-                }
-                user = new User(username, domainUser.getPassword(), domainUser.isEnabled(), true, true, true, authorities);
-                user.setId(domainUser.getId());
-                user.setCreatedAt(domainUser.getCreatedAt());
-                user.setUpdatedAt(domainUser.getUpdatedAt());
-                user.setRoles(domainUser.getRoles());
+        }
+        User domainUser = userRepository.findByUsername(username);
+        if (domainUser == null) {
+            throw new UsernameNotFoundException("User not found for name: " + username);
+        }
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        if (domainUser.getRoles() != null) {
+            for (Role role : domainUser.getRoles()) {
+                authorities.add(new SimpleGrantedAuthority(role.getName()));
             }
         }
+        User user = new User(username, domainUser.getPassword(), domainUser.isEnabled(), authorities);
+        user.setId(domainUser.getId());
+        user.setCreatedAt(domainUser.getCreatedAt());
+        user.setUpdatedAt(domainUser.getUpdatedAt());
+        user.setRoles(domainUser.getRoles());
         return user;
     }
 }
