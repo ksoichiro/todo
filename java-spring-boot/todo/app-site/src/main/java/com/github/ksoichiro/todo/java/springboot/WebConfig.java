@@ -17,7 +17,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         VersionResourceResolver versionResolver = new VersionResourceResolver()
-                .addContentVersionStrategy("/**");
+                .addContentVersionStrategy("/css/**", "/js/**");
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:static/")
                 .setCachePeriod(null)
