@@ -1,22 +1,13 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head lang="en">
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <title>TODO</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap/dist/css/bootstrap.min.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-custom.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" />
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <title>Main</title>
 </head>
 <body>
 
-<nav th:replace="fragments/header :: navbar">
-</nav>
-
-<div class="container">
+<div class="container" layout:fragment="content">
 
     <div class="form-group">
         <form id="newTodo" th:action="@{/todos/create}" th:object="${todoForm}" method="post" class="form-inline">
@@ -82,6 +73,6 @@
 
 <script th:src="@{/lib/jquery/dist/jquery.min.js}"></script>
 <script th:src="@{/lib/bootstrap/dist/js/bootstrap.min.js}"></script>
-<script th:src="@{/js/index.js}"></script>
+<script layout:fragment="footer-script" th:src="@{/js/index.js}"></script>
 </body>
 </html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head lang="en">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">TODO</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap/dist/css/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-custom.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" />
+</head>
+<body>
+
+<nav th:replace="fragments/header :: navbar">
+</nav>
+
+<div class="container" layout:fragment="content">
+    <p>Static content for prototyping purposes only</p>
+</div>
+
+<script th:src="@{/lib/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/lib/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script layout:fragment="footer-script"></script>
+</body>
+</html>

@@ -1,38 +1,27 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head lang="en">
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>TODO login</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap/dist/css/bootstrap.min.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-custom.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" />
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <title>Login</title>
 </head>
 <body>
 
-<nav th:replace="fragments/header :: navbar">
-</nav>
+<div class="container" layout:fragment="content">
+    <h1>Welcome!</h1>
+    <p>This is a tiny TODO management system.</p>
 
-<div>
-    <div class="container">
-        <h1>Welcome!</h1>
-        <p>This is a tiny TODO management system.</p>
+    <div class="alert alert-warning" th:if="${param.error}">Invalid username and password.</div>
+    <div class="alert alert-info" th:if="${param.logout}">You have been logged out.</div>
 
-        <div class="alert alert-warning" th:if="${param.error}">Invalid username and password.</div>
-        <div class="alert alert-info" th:if="${param.logout}">You have been logged out.</div>
-
-        <form class="form-signin" th:action="@{/login}" method="post">
-            <label for="username" class="sr-only">Username</label>
-            <input type="text" id="username" name="username" class="form-control" placeholder="Username" required="true" autofocus="true" />
-            <label for="password" class="sr-only">Password</label>
-            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="true" />
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-        </form>
-    </div>
+    <form class="form-signin" th:action="@{/login}" method="post">
+        <label for="username" class="sr-only">Username</label>
+        <input type="text" id="username" name="username" class="form-control" placeholder="Username" required="true" autofocus="true" />
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="true" />
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+    </form>
 </div>
 
-<script th:src="@{/lib/jquery/dist/jquery.min.js}"></script>
-<script th:src="@{/lib/bootstrap/dist/js/bootstrap.min.js}"></script>
 </body>
 </html>
