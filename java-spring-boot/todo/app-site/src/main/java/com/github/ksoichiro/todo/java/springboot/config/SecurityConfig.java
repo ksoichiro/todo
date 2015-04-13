@@ -1,4 +1,4 @@
-package com.github.ksoichiro.todo.java.springboot;
+package com.github.ksoichiro.todo.java.springboot.config;
 
 import com.github.ksoichiro.todo.java.springboot.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

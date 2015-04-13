@@ -1,4 +1,4 @@
-package com.github.ksoichiro.todo.java.springboot;
+package com.github.ksoichiro.todo.java.springboot.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
